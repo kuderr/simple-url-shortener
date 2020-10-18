@@ -10,6 +10,7 @@ class URL(BaseModel):
     full_url: str = Field(..., title="Full URL")
     short_url_code: str = Field(..., title="Redirection code of URL")
 
+
 class Database:
     """Fake db"""
 
@@ -24,16 +25,16 @@ class Database:
         for url in self._items.values():
             yield url
 
-    async def get(self, id: typing.Optional[int] = None, 
-            full_url: typing.Optional[str] = None, 
-            short_url_code: typing.Optional[str] = None) -> typing.Optional[URL]:
-        
+    async def get(self, id: typing.Optional[int] = None,
+                  full_url: typing.Optional[str] = None,
+                  short_url_code: typing.Optional[str] = None) -> typing.Optional[URL]:
+
         if id:
             return self._items.get(id)
 
         try:
             return next(item for item in self._items.values()
-                    if item.full_url == full_url or item.short_url_code == short_url_code)
+                        if item.full_url == full_url or item.short_url_code == short_url_code)
         except StopIteration:
             return None
 
@@ -57,5 +58,3 @@ class Database:
             del self._items[id]
         else:
             raise ValueError("URL doesn`t exist")
-
-

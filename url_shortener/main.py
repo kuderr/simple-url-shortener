@@ -12,10 +12,10 @@ db = Database()
 
 
 @app.get(
-        "/",
-        response_description="Randon URL",
-        description="Get random URL from database",
-        response_model=URL,
+    "/",
+    response_description="Randon URL",
+    description="Get random URL from database",
+    response_model=URL,
 )
 async def get_random():
     try:
@@ -27,13 +27,14 @@ async def get_random():
     return url
 
 
-@app.get("/urls",
-        response_description="All urls", 
-        response_model=typing.List[URL],
+@app.get(
+    "/urls",
+    response_description="All urls",
+    response_model=typing.List[URL],
 )
 async def get_all():
     response = []
-    
+
     async for url in db.get_all():
         response.append(url.dict())
 
@@ -50,10 +51,10 @@ async def redirect(code: str):
 
 
 @app.post(
-        "/urls/",
-        response_description="Added url",
-        response_model=URL,
-        status_code=201,
+    "/urls/",
+    response_description="Added url",
+    response_model=URL,
+    status_code=201,
 )
 async def add(url: str):
     new_url = await db.add(url)
@@ -61,8 +62,8 @@ async def add(url: str):
 
 
 @app.delete(
-        "/urls/{id}",
-        response_description="Deleted URL"
+    "/urls/{id}",
+    response_description="Deleted URL"
 )
 async def delete(id: int):
     try:
